@@ -64,6 +64,16 @@ function App() {
             setTasks({ ...tasks })
         }
     }
+    const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
+        let task = tasks[todolistId]
+        let task1 = task.find(t => t.id === taskId)
+        if (task1) {
+            task1.title = newTitle
+            setTasks({ ...tasks })
+        }
+    }
+
+
     const changeFilter = (value: FilterValuesType, todolistId: string) => {
         let todoList = todolist.find(tl => tl.id === todolistId);
         if (todoList) {
@@ -90,14 +100,7 @@ function App() {
             [todolists.id]: []
         })
     }
-    const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
-        let task = tasks[todolistId]
-        let task1 = task.find(t => t.id === taskId)
-        if (task1) {
-            task1.title = newTitle
-            setTasks({ ...tasks })
-        }
-    }
+
     const changeTodolistTitle = (newTitle: string, id: string) => {
         const todolistTitle = todolist.find(tl => tl.id === id)
         if (todolistTitle) {
