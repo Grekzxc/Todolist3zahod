@@ -1,5 +1,5 @@
 import { v1 } from 'uuid'
-import { addTodolistAC, ChangeTodolistFilterAC, ChangeTodolistFilterActionType, ChangeTodolistTitleAC, ChangeTodolistTitleActionType, RemoveTodolistAC, todolistReduser } from './todolist_reduser'
+import { addTodolistAC, ChangeTodolistFilterAC, ChangeTodolistFilterActionType, ChangeTodolistTitleAC, ChangeTodolistTitleActionType, RemoveTodolistAC, todolistReducer } from './todolist_reduser'
 import { FilterValuesType, TodolistType } from '../App'
 
 test('correct todolist chould be removed', () => {
@@ -11,7 +11,7 @@ test('correct todolist chould be removed', () => {
         { id: todolistId2, title: 'What to buy', filter: 'All' },
     ]
 
-    const endState = todolistReduser(startState, RemoveTodolistAC(todolistId1))
+    const endState = todolistReducer(startState, RemoveTodolistAC(todolistId1))
 
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe(todolistId2)
@@ -28,7 +28,7 @@ test('correct todolist chould be added', () => {
         { id: todolistId2, title: 'What to buy', filter: 'All' },
     ]
 
-    const endState = todolistReduser(startState, addTodolistAC(newTodolistTitle))
+    const endState = todolistReducer(startState, addTodolistAC(newTodolistTitle))
 
     expect(endState.length).toBe(3)
     expect(endState[2].title).toBe(newTodolistTitle)
@@ -48,7 +48,7 @@ test('correct todolist chould its name', () => {
 
     const action = ChangeTodolistTitleAC(newTodolistTitle, todolistId2,)
 
-    const endState = todolistReduser(startState, action)
+    const endState = todolistReducer(startState, action)
 
     expect(endState[0].title).toBe('What to learn')
     expect(endState[1].title).toBe(newTodolistTitle)
@@ -67,7 +67,7 @@ test('correct filter of todolist should be changet', () => {
 
     const action = ChangeTodolistFilterAC(todolistId2, newFilter)
 
-    const endState = todolistReduser(startState, action)
+    const endState = todolistReducer(startState, action)
 
     expect(endState[0].filter).toBe('All')
     expect(endState[1].filter).toBe(newFilter)

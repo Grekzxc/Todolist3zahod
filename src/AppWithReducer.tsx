@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import './App.css';
 import { TaskPropsType, Todolist } from './Todolist';
 import { v1 } from 'uuid';
 import { AddItemForm } from './AddItemForm';
 import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material';
 import { Menu } from '@mui/icons-material';
+import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from './state/tasks_reduser';
+import { ChangeTodolistFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC, addTodolistAC, todolistId1, todolistId2, todolistReducer } from './state/todolist_reduser';
 
 export type FilterValuesType = 'All' | 'Complited' | 'Active'
 export type TodolistType = {
@@ -17,17 +19,15 @@ export type TasksStateType = {
 
 }
 
-function App() {
+function AppWithReducers() {
 
-    let todolistId1 = v1()
-    let todolistId2 = v1()
 
-    let [todolist, setTodolist] = useState<Array<TodolistType>>([
+    let [todolist, dispatchTodolistReducer] = useReducer(todolistReducer, [
         { id: todolistId1, title: 'What to learn', filter: 'All' },
         { id: todolistId2, title: 'What to buy', filter: 'All' },
     ])
 
-    let [tasks, setTasks] = useState<TasksStateType>({
+    let [tasks, dispatchToTasksReducer] = useReducer(tasksReducer, {
         [todolistId1]: [
             { id: v1(), title: 'CSS', isDone: true },
             { id: v1(), title: 'JS', isDone: true },
@@ -42,69 +42,39 @@ function App() {
         ]
     })
 
-    // const removeTask = (id: string, todolistId: string) => {
-    //     let task = tasks[todolistId]
-    //     let filteredTasks = task.filter(t => t.id !== id)
-    //     tasks[todolistId] = filteredTasks
-    //     setTasks({ ...tasks })
-    // }
+    const removeTask = (id: string, todolistId: string) => {
+        dispatchToTasksReducer(removeTaskAC(id, todolistId))
+    }
 
-    // const addTask = (title: string, todolistId: string) => {
-    //     let newTask = { id: v1(), title: title, isDone: false }
-    //     let task = tasks[todolistId]
-    //     let newTasks = [newTask, ...task]
-    //     tasks[todolistId] = newTasks
-    //     setTasks({ ...tasks })
-    // }
-    // const changeStatus = (taskId: string, isDone: boolean, todolistId: string) => {
-    //     let task = tasks[todolistId]
-    //     let task1 = task.find(t => t.id === taskId)
-    //     if (task1) {
-    //         task1.isDone = isDone
-    //         setTasks({ ...tasks })
-    //     }
-    // }
-    // const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
-    //     let task = tasks[todolistId]
-    //     let task1 = task.find(t => t.id === taskId)
-    //     if (task1) {
-    //         task1.title = newTitle
-    //         setTasks({ ...tasks })
-    //     }
-    // }
+    const addTask = (title: string, todolistId: string) => {
+        dispatchToTasksReducer(addTaskAC(title, todolistId))
+    }
+
+    const changeStatus = (taskId: string, isDone: boolean, todolistId: string) => {
+        dispatchToTasksReducer(changeTaskStatusAC(taskId, isDone, todolistId))
+    }
+
+    const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
+        dispatchToTasksReducer(changeTaskTitleAC(taskId, newTitle, todolistId))
+    }
 
     const changeFilter = (value: FilterValuesType, todolistId: string) => {
-        let todoList = todolist.find(tl => tl.id === todolistId);
-        if (todoList) {
-            todoList.filter = value
-            setTodolist([...todolist])
-        }
-        // setTodolist(todolist.map(tl => tl.id === todolistId ? { ...tl, value: value } : tl))
+        dispatchTodolistReducer(ChangeTodolistFilterAC(todolistId, value))
     }
+
     const removeTodolist = (todolistId: string) => {
-        let filteredTodolist = todolist.filter(tl => tl.id !== todolistId)
-        setTodolist(filteredTodolist)
-        delete tasks[todolistId]
-        setTasks({ ...tasks })
+        dispatchTodolistReducer(RemoveTodolistAC(todolistId))
+        dispatchToTasksReducer(RemoveTodolistAC(todolistId))
     }
+
     const changeTodolistTitle = (newTitle: string, id: string) => {
-        const todolistTitle = todolist.find(tl => tl.id === id)
-        if (todolistTitle) {
-            todolistTitle.title = newTitle
-            setTodolist([...todolist])
-        }
+        dispatchTodolistReducer(ChangeTodolistTitleAC(newTitle, id))
     }
+
     const addTodolist = (title: string) => {
-        let todolists: TodolistType = {
-            id: v1(),
-            filter: 'All',
-            title: title
-        }
-        setTodolist([todolists, ...todolist])
-        setTasks({
-            ...tasks,
-            [todolists.id]: []
-        })
+        const action = addTodolistAC(title)
+        dispatchTodolistReducer(action)
+        dispatchToTasksReducer(action)
     }
 
 
@@ -166,4 +136,4 @@ function App() {
         </div>
     );
 }
-export default App;
+export default AppWithReducers;

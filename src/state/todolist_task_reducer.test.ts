@@ -1,6 +1,6 @@
 import { TasksStateType, TodolistType } from "../App"
-import { tasksReduser } from "./tasks_reduser"
-import { addTodolistAC, todolistReduser } from "./todolist_reduser"
+import { tasksReducer } from "./tasks_reduser"
+import { addTodolistAC, todolistReducer } from "./todolist_reduser"
 
 test('its should be equals', () => {
     const startTaskState: TasksStateType = {}
@@ -8,8 +8,8 @@ test('its should be equals', () => {
 
     const action = addTodolistAC('new todolist')
 
-    const endTaskState = tasksReduser(startTaskState, action)
-    const endTodolistState = todolistReduser(startTodolistState, action)
+    const endTaskState = tasksReducer(startTaskState, action)
+    const endTodolistState = todolistReducer(startTodolistState, action)
 
     const keys = Object.keys(endTaskState)
     const idFormTask = keys[0]
