@@ -16,7 +16,7 @@ export type TaskPropsType = {
 export type TodolistPropsType = {
     id: string
     title: string
-    tasks: Array<TaskPropsType>
+    // tasks: Array<TaskPropsType>
     filter: FilterValuesType
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     removeTodolist: (todolistId: string) => void
@@ -25,8 +25,8 @@ export type TodolistPropsType = {
 
 export const Todolist = (props: TodolistPropsType) => {
 
-    const tasks = useSelector<AppRootState, Array<TaskPropsType>>(state => state.tasks[props.id])
     const dispath = useDispatch()
+    const tasks = useSelector<AppRootState, Array<TaskPropsType>>(state => state.tasks[props.id])
 
     // const changeStatus = (taskId: string, isDone: boolean, todolistId: string) => {
     //     dispath(changeTaskStatusAC(taskId, isDone, todolistId))

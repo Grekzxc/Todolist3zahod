@@ -1,12 +1,10 @@
 import React, { useReducer, useState } from 'react';
 import './App.css';
 import { TaskPropsType, Todolist } from './Todolist';
-import { v1 } from 'uuid';
 import { AddItemForm } from './AddItemForm';
 import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material';
 import { Menu } from '@mui/icons-material';
-import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from './state/tasks_reduser';
-import { ChangeTodolistFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC, addTodolistAC, todolistId1, todolistId2, todolistReducer } from './state/todolist_reduser';
+import { ChangeTodolistFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC, addTodolistAC } from './state/todolist_reduser';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { AppRootState } from './state/store';
@@ -19,19 +17,16 @@ export type TodolistType = {
 }
 export type TasksStateType = {
     [key: string]: Array<TaskPropsType>
-
 }
-
-
 
 function AppWithRedux() {
 
     const dispath = useDispatch()
-    const todolists = useSelector<AppRootState, Array<TodolistType>>(state => state.todolist)
-
+    const todolists = useSelector<AppRootState, Array<TodolistType>>(state => state.todolists)
+    const tasks = useSelector<AppRootState, TasksStateType>(state => state.tasks)
 
     const changeFilter = (value: FilterValuesType, todolistId: string) => {
-        dispath(ChangeTodolistFilterAC(todolistId, value))
+        dispath(ChangeTodolistFilterAC(value, todolistId))
     }
 
     const removeTodolist = (todolistId: string) => {
@@ -46,7 +41,6 @@ function AppWithRedux() {
         const action = addTodolistAC(title)
         dispath(action)
     }
-
 
     return (
         <div className="App">
@@ -70,7 +64,6 @@ function AppWithRedux() {
                 </Grid>
                 <Grid container spacing={5}>
                     {
-
                         todolists.map((tl) => {
 
                             return (
@@ -84,7 +77,8 @@ function AppWithRedux() {
                                             changeFilter={changeFilter}
                                             filter={tl.filter}
                                             removeTodolist={removeTodolist}
-                                            changeTodolistTitle={changeTodolistTitle} tasks={[]} />
+                                            changeTodolistTitle={changeTodolistTitle} />
+                                        {/* tasks={[] */}
                                     </Paper>
                                 </Grid>
                             )

@@ -42,12 +42,12 @@ function App() {
         ]
     })
 
-    // const removeTask = (id: string, todolistId: string) => {
-    //     let task = tasks[todolistId]
-    //     let filteredTasks = task.filter(t => t.id !== id)
-    //     tasks[todolistId] = filteredTasks
-    //     setTasks({ ...tasks })
-    // }
+    const removeTask = (id: string, todolistId: string) => {
+        let task = tasks[todolistId]
+        let filteredTasks = task.filter(t => t.id !== id)
+        tasks[todolistId] = filteredTasks
+        setTasks({ ...tasks })
+    }
 
     // const addTask = (title: string, todolistId: string) => {
     //     let newTask = { id: v1(), title: title, isDone: false }
@@ -146,7 +146,7 @@ function App() {
                                             key={tl.id}
                                             id={tl.id}
                                             title={tl.title}
-                                            tasks={tasksForTodolist}
+                                            // tasks={tasksForTodolist}
                                             // removeTask={removeTask}
                                             changeFilter={changeFilter}
                                             // addTask={addTask}

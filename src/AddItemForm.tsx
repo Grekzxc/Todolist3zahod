@@ -1,13 +1,14 @@
-import { Button, Fab, Icon, IconButton, SvgIcon, TextField } from "@mui/material"
+import { IconButton, SvgIcon, TextField } from "@mui/material"
 import { ChangeEvent, useState } from "react"
-import AddIcon from '@mui/icons-material/Add';
-import { ControlPoint, ControlPointTwoTone } from "@mui/icons-material";
+import { ControlPointTwoTone } from "@mui/icons-material";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
 export const AddItemForm = (props: AddItemFormPropsType) => {
+    console.log('addItemForm is called');
+
     const [newTaskTitle, setNewTaskTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 
@@ -15,7 +16,9 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         setNewTaskTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        if (error !== null) {
+            setError(null)
+        }
         if (e.ctrlKey && e.charCode === 13) {
             onClickAddTaskHandler()
         }
