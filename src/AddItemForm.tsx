@@ -1,12 +1,13 @@
-import { IconButton, SvgIcon, TextField } from "@mui/material"
+import { IconButton, TextField } from "@mui/material"
 import { ChangeEvent, useState } from "react"
 import { ControlPointTwoTone } from "@mui/icons-material";
+import React from "react";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm = (props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     console.log('addItemForm is called');
 
     const [newTaskTitle, setNewTaskTitle] = useState('')
@@ -52,4 +53,4 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
             </IconButton>
         </div>
     )
-}
+})
