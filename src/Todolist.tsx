@@ -6,7 +6,8 @@ import { Button, Checkbox, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootState } from "./state/store";
-import { ActionsType, ChangeTaskActionType, ChangeTaskTitleActionType, RemoveTaskActionType, addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from "./state/tasks_reduser";
+import { ActionsType, addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from "./state/tasks_reduser";
+import { Task } from "./Task";
 
 export type TaskPropsType = {
     id: string
@@ -71,32 +72,9 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
             <ul>
                 {
                     tasksForTodolist.map(t => {
-                        // хер знает как это все запихнуть в отдельную компоненту
-                        const onRemoveHandler = () => dispath(removeTaskAC(t.id, props.id))
-                        const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                            let neIsDoneValue = e.currentTarget.checked
-                            dispath(changeTaskStatusAC(t.id, neIsDoneValue, props.id))
-                        }
-                        const onChangeTitleHandler = (newValue: string) => {
-                            dispath(changeTaskTitleAC(t.id, newValue, props.id))
-                        }
-                        return <div
-                            key={t.id}
-                            className={t.isDone ? 'is_done' : ''}
-                        >
-                            <Checkbox
-                                checked={t.isDone}
-                                onChange={onChangeStatusHandler}
-                            />
-                            <EditableSpan title={t.title} onChange={onChangeTitleHandler} />
-                            <IconButton onClick={onRemoveHandler}>
-                                <Delete />
-                            </IconButton>
-                        </div>
-                        // спросить у кого нибудь потом
+                        return <Task task={t} todoId={props.id} />
                     })
                 }
-
             </ul>
             <div>
                 <Button
@@ -125,37 +103,5 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     );
 })
 
-// type TaskPropsType2 = {
-//     changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
-//     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
-//     removeTask: (taskId: string, todolistId: string) => void
-//     t: TaskPropsType
-// }
 
-
-// const Task = (props: RemoveTaskActionType | ChangeTaskActionType | ChangeTaskTitleActionType) => {
-//     const dispath = useDispatch()
-
-//     const onRemoveHandler = () => dispath(removeTaskAC(props.taskId, props.todolistId))
-//     const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-//         let neIsDoneValue = e.currentTarget.checked
-//         dispath(changeTaskStatusAC(props.taskId, neIsDoneValue, props.todolistId))
-//     }
-//     const onChangeTitleHandler = (newValue: string) => {
-//         dispath(changeTaskTitleAC(props.taskId, newValue, props.todolistId))
-//     }
-//     return <div
-//         key={props.taskId}
-//         className={t.isDone ? 'is_done' : ''}
-//     >
-//         <Checkbox
-//             checked={t.isDone}
-//             onChange={onChangeStatusHandler}
-//         />
-//         <EditableSpan title={t.title} onChange={onChangeTitleHandler} />
-//         <IconButton onClick={onRemoveHandler}>
-//             <Delete />
-//         </IconButton>
-//     </div>
-// }
 

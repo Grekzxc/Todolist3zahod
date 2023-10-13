@@ -17,3 +17,5 @@ export const store = createStore(rootRedicer)
 
 // @ts-ignore
 window.store = store
+
+

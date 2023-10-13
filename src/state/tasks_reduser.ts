@@ -33,18 +33,18 @@ export type ActionsType =
     RemoveTodolistActionType
 
 const initialState: TasksStateType = {
-    [todolistId1]: [
-        { id: v1(), title: 'CSS', isDone: true },
-        { id: v1(), title: 'JS', isDone: true },
-        { id: v1(), title: 'Redux', isDone: true },
-        { id: v1(), title: 'React', isDone: false },
-    ],
-    [todolistId2]: [
-        { id: v1(), title: 'Book', isDone: true },
-        { id: v1(), title: 'Milk', isDone: true },
-        { id: v1(), title: 'Bear', isDone: true },
-        { id: v1(), title: 'Bread', isDone: false },
-    ]
+    // [todolistId1]: [
+    //     { id: v1(), title: 'CSS', isDone: true },
+    //     { id: v1(), title: 'JS', isDone: true },
+    //     { id: v1(), title: 'Redux', isDone: true },
+    //     { id: v1(), title: 'React', isDone: false },
+    // ],
+    // [todolistId2]: [
+    //     { id: v1(), title: 'Book', isDone: true },
+    //     { id: v1(), title: 'Milk', isDone: true },
+    //     { id: v1(), title: 'Bear', isDone: true },
+    //     { id: v1(), title: 'Bread', isDone: false },
+    // ]
 }
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
